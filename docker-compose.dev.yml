@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Backend API (Development)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: retro-tracker-backend-dev
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/retro-tracker
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-key}
+      - JWT_EXPIRE=${JWT_EXPIRE:-7d}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
+    volumes:
+      # Mount source code for hot reload
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./tsconfig.json:/app/tsconfig.json
+      - /app/node_modules
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    networks:
+      - retro-tracker-network
+    command: npm run dev
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: retro-tracker-mongodb-dev
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_dev:/data/db
+    restart: unless-stopped
+    networks:
+      - retro-tracker-network
+    environment:
+      - MONGO_INITDB_DATABASE=retro-tracker
+
+volumes:
+  mongodb_data_dev:
+    driver: local
+
+networks:
+  retro-tracker-network:
+    driver: bridge
+

@@ -298,16 +298,61 @@ npm start
 
 ### Docker
 
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 5000
-CMD ["npm", "start"]
+#### Production Build
+
+Build and run the production Docker image:
+
+```bash
+# Build the image
+docker build -t retro-tracker-backend .
+
+# Run the container
+docker run -p 5000:5000 \
+  -e MONGODB_URI=your_mongodb_uri \
+  -e JWT_SECRET=your_jwt_secret \
+  -e CORS_ORIGIN=http://localhost:5173 \
+  retro-tracker-backend
 ```
+
+#### Docker Compose (Production)
+
+Run the entire stack (backend + MongoDB) with Docker Compose:
+
+```bash
+# Create .env file with your environment variables
+cp .env.example .env
+
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (clean slate)
+docker-compose down -v
+```
+
+#### Docker Compose (Development)
+
+For development with hot reload:
+
+```bash
+# Start development environment
+docker-compose -f docker-compose.dev.yml up
+
+# The backend will auto-reload on code changes
+```
+
+#### Docker Features
+
+- **Multi-stage build** for optimized production image
+- **Non-root user** for security
+- **Health checks** for container monitoring
+- **Volume persistence** for MongoDB data
+- **Hot reload** support in development mode
 
 ## 🏛️ Architecture & Design Decisions
 
