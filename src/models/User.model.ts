@@ -32,8 +32,8 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-// Index
-userSchema.index({ email: 1 });
+// Note: email field already has unique: true which creates an index automatically
+// No need for explicit index to avoid duplicate index warning
 
 // Hash password before save
 userSchema.pre('save', async function (next) {
