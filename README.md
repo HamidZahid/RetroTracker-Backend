@@ -12,6 +12,14 @@ A RESTful API backend for managing team retrospectives, action items, and team c
 - Pagination support for retrospectives
 - Comprehensive testing suite
 
+## 🎥 Demo
+
+Watch the demo videos to see the application in action:
+
+1. **Demo Video 1**: [https://www.loom.com/share/2250694abbf14798a339ab5641cf7332](https://www.loom.com/share/2250694abbf14798a339ab5641cf7332)
+
+2. **Demo Video 2**: [https://www.loom.com/share/6f0eef69ab424d5ca2fd3ee8973e092c](https://www.loom.com/share/6f0eef69ab424d5ca2fd3ee8973e092c)
+
 ## 📦 Tech Stack
 
 - Node.js + Express
